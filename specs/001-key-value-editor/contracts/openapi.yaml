@@ -1,0 +1,40 @@
+openapi: 3.0.3
+info:
+  title: KeyValueEditor API
+  version: 1.0.0
+paths:
+  /records:
+    get:
+      summary: List records (lightweight table view)
+      responses:
+        '200':
+          description: OK
+  /records/{id}:
+    get:
+      summary: Get a single record by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+    put:
+      summary: Update a single record by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Updated

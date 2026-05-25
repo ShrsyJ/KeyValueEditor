@@ -1,50 +1,55 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# KeyValueEditor Constitution
+<!--
+Sync Impact Report
+- Version change: [UNSET] -> 0.1.0
+- Modified principles: [PRINCIPLE_1_NAME]..[PRINCIPLE_5_NAME] -> concrete principle names
+- Added sections: SECTION_2_NAME -> Technology Constraints, SECTION_3_NAME -> Development Workflow
+- Removed sections: none
+- Templates requiring updates:
+	- .specify/templates/plan-template.md: ⚠ pending (align runtime stack & constitution check)
+	- .specify/templates/spec-template.md: ⚠ pending (remove auth assumptions; reflect persona switching design)
+	- .specify/templates/tasks-template.md: ⚠ pending (adjust foundational tasks to SQLite + no external auth libs)
+- Follow-up TODOs:
+	- TODO(RATIFICATION_DATE): original adoption date unknown — please provide ratification date.
+-->
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Technology & Architecture (NON-NEGOTIABLE)
+Use Python with FastAPI for the backend API, React for the frontend UI, and SQLite for persistent storage.
+Implement clean, well-documented code with clear separation of concerns between API, services, and data layers. Choices favor minimal dependencies and portability.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Test-First Quality (NON-NEGOTIABLE)
+Tests must be written before implementation for all new features: unit tests, contract tests (API OpenAPI/contract checks), and integration tests where services interact. CI must run tests and block merges on failures.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Authentication & Persona Switching (CONSTRAINT)
+Do not introduce external authentication libraries. Persona switching is implemented in-app via a profile icon that switches active persona contexts without passwords (developer/QA personas only). Any authentication semantics must be explicit, audited, and documented; session handling must be secure and protected against common web threats.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. API Stability & Contract-First Design
+Public APIs MUST be defined with OpenAPI, versioned semantically, and maintained with backward compatibility guarantees where possible. Breaking changes require a documented migration path and version bump policy.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Observability, Simplicity & Maintainability
+Prefer simple, readable solutions over speculative complexity (YAGNI). Use structured logging, error classification, and basic metrics to make debugging and performance analysis straightforward.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Technology Constraints
+The project formally constrains the stack to:
+- Backend: Python (FastAPI)
+- Frontend: React
+- Database: SQLite (embedded)
+- No external authentication libraries (e.g., no OAuth/OpenID client packages or third-party auth SDKs). Persona switching via UI is allowed and must not store plaintext secrets.
+All third-party dependencies must be reviewed for security and necessity; prefer standard libraries and small, well-maintained packages.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
-
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+## Development Workflow
+- Branching: feature branches per task, PR-based workflow, code review required for merges.
+- CI: Linting, formatting, unit tests, contract tests (OpenAPI validation), and basic integration tests run on every PR.
+- Formatting/Linting: Backend uses `black` + `ruff` (or similar); frontend uses `prettier` + `eslint`.
+- Releases: Semantic versioning for the API and release notes documenting breaking changes and migration steps.
+- Documentation: API contracts (OpenAPI), quickstart, and developer guide must be kept in `docs/`.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+Amendments to this constitution require a written proposal, a review by at least two maintainers, and a migration plan for any breaking changes. Minor wording fixes may be applied with a patch version bump; adding or removing principles requires a minor/major bump depending on scope.
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+All PRs should reference the relevant constitution principle(s) and show how the change complies. The constitution is the canonical source for mandatory engineering constraints.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
+**Version**: 0.1.0 | **Ratified**: TODO(RATIFICATION_DATE) | **Last Amended**: 2026-05-25
 <!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->

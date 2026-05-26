@@ -1,0 +1,10 @@
+body { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; }
+.app { padding: 16px; }
+.topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px }
+.table { border-collapse: collapse; width: 100%; margin-top: 12px }
+.table th, .table td { border: 1px solid #ddd; padding: 8px }
+.editor { margin-top: 12px }
+.field { margin-bottom: 8px }
+.field label { display:block; font-weight:600 }
+.profile-btn { cursor:pointer; padding:6px 10px; border:1px solid #ccc; border-radius:6px }
+.save-btn { padding:8px 12px; border-radius:6px; cursor:pointer }
